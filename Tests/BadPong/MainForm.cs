@@ -13,15 +13,15 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Windows.Input;
 
-namespace test {
+namespace BadPong {
 	/// <summary>
 	/// Description of MainForm.
 	/// </summary>
 	public partial class MainForm : Form {
 		const int PADDLE_V = 5;
 		
-		private Button leftPaddle, ball, rightPaddle;
-		private IntVec2 leftV, ballV, rightV;
+		private Button leftPaddle, ball;
+		private IntVec2 ballV;
 		private System.Windows.Forms.Timer tim;
 		
 		public MainForm()
@@ -51,10 +51,7 @@ namespace test {
 			vec.Y = 5;
 			ballV = vec;
 			
-			int lol = 0;
-			
 			tim = new System.Windows.Forms.Timer();
-			//tim.Tick += (Object sender, EventArgs e) => {++lol; leftPaddle.Text = lol.ToString();};
 			tim.Tick += OnUpdate;
 			tim.Interval = 10;
 			tim.Start();

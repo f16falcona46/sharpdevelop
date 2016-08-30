@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace test {
+namespace BadPong {
 	/// <summary>
 	/// Description of IntVec2.
 	/// </summary>

@@ -9,7 +9,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace test
+namespace BadPong
 {
 	/// <summary>
 	/// Class with program entry point.
