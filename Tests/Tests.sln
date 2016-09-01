@@ -4,6 +4,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # SharpDevelop 5.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadPong", "BadPong\BadPong.csproj", "{3F99CA2D-264C-4AA3-B646-C20BA5F9713F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFTestApp", "WPFTestApp\WPFTestApp.csproj", "{5B35341E-69DF-4F5F-BC61-E8F21ECF4101}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,5 +16,9 @@ Global
 		{3F99CA2D-264C-4AA3-B646-C20BA5F9713F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F99CA2D-264C-4AA3-B646-C20BA5F9713F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F99CA2D-264C-4AA3-B646-C20BA5F9713F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B35341E-69DF-4F5F-BC61-E8F21ECF4101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B35341E-69DF-4F5F-BC61-E8F21ECF4101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B35341E-69DF-4F5F-BC61-E8F21ECF4101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B35341E-69DF-4F5F-BC61-E8F21ECF4101}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
