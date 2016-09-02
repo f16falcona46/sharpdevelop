@@ -90,7 +90,8 @@ namespace SBIL
 		PGM_PTR,
 		NAM,
 		HASH_NAM,
-		STR
+		STR,
+		CONTINUED
 	}
 	
 	public enum SBIL_ExitState : byte

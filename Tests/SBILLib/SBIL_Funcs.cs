@@ -43,12 +43,12 @@ namespace SBIL
 			return state.stack_size;
 		}
 		
-		public static SBIL_Type SBIL_GetItemType(SBIL_State state, uint index)
+		public static SBIL_Type SBIL_GetItemType(SBIL_State state, int index)
 		{
 			throw new System.NotImplementedException();
 		}
 		
-		public static object SBIL_GetItem(SBIL_State state, uint index)
+		public static object SBIL_GetItem(SBIL_State state, int index)
 		{
 			throw new System.NotImplementedException();
 		}
