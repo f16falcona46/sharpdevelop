@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Window
-	x:Class="StudentProblemPicker.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	x:Class="StudentProblemPicker.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 	x:Name="mainWindow"
 	Title="Student Problem Picker"
 	Height="400"
 	Width="600"
-	MinHeight="200"
-	MinWidth="300"
+	MinHeight="300"
+	MinWidth="400"
 	Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
 	<Grid>
 		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				Width="1*" />
 			<ColumnDefinition
 				Width="1*" />
 		</Grid.ColumnDefinitions>
@@ -26,7 +28,8 @@
 		<GroupBox
 			Header="Select Items"
 			Grid.Row="0"
-			Grid.Column="0">
+			Grid.Column="0"
+			Grid.ColumnSpan="2">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -129,11 +132,37 @@
 				</Grid>
 			</Grid>
 		</GroupBox>
+		<Grid
+			Grid.Row="2"
+			Grid.Column="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition
+					Width="1*" />
+				<ColumnDefinition
+					Width="1*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition
+					Height="Auto" />
+			</Grid.RowDefinitions>
+			<Label
+				x:Name="test1"
+				Content="{Binding Path=MaximumSelections, Mode=OneWay}"
+				Grid.Row="0"
+				Grid.Column="0" />
+			<xctk:IntegerUpDown
+				x:Name="numSelections"
+				Value="0"
+				Minimum="0"
+				Maximum="0"
+				Grid.Row="0"
+				Grid.Column="1" />
+		</Grid>
 		<Button
 			x:Name="selectFromStudents"
 			Content="Randomly Choose"
 			Grid.Row="2"
-			Grid.Column="0"
+			Grid.Column="1"
 			HorizontalAlignment="Stretch"
 			Margin="5"
 			Click="selectFromStudents_Click" />
