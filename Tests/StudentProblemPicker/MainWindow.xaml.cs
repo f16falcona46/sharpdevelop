@@ -18,6 +18,8 @@ using System.Windows.Media;
 using System.Xml.Linq;
 using System.Linq;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
+//using Xceed.Wpf.Toolkit;
 
 namespace StudentProblemPicker
 {
@@ -30,14 +32,14 @@ namespace StudentProblemPicker
 		{
 			InitializeComponent();
 			
-			this.Students = new System.Collections.ObjectModel.ObservableCollection<Student>();
-			this.Problems = new System.Collections.ObjectModel.ObservableCollection<ProblemEntry>();
+			this.Students = new ObservableCollection<Student>();
+			this.Problems = new ObservableCollection<ProblemEntry>();
 			
 			this.DataContext = this;
 		}
 		
-		public IList<Student> Students {get; set;}
-		public IList<ProblemEntry> Problems {get; set;}
+		public ObservableCollection<Student> Students {get; set;}
+		public ObservableCollection<ProblemEntry> Problems {get; set;}
 		private static Random rng = new Random();
 
 		private static void Shuffle<T>(IList<T> list)  
@@ -50,6 +52,61 @@ namespace StudentProblemPicker
 				list[k] = list[n];
 				list[n] = value;
 			}
+		}
+		
+		//convention: if unsuccessful, returns a list with one element, which is the negative of the problem entry it failed on.
+		private List<int> ParseProblemsList()
+		{
+			List<int> allProblems = new List<int>();
+			for (int i = 0; i < this.Problems.Count; ++i) {
+				string entryString = this.Problems[i].Problems;
+				if (entryString == null) {
+					allProblems.Clear();
+					allProblems.Add(-(i+1));
+					return allProblems;
+				}
+				entryString = entryString.Replace(" ", "");
+				IList<string> subEntries = this.Problems[i].Problems.Split(',');
+				foreach (string subentry in subEntries) {
+					IList<string> numbers = subentry.Split('-', '(');
+					try {
+						switch (numbers.Count) {
+							case 1:
+								allProblems.Add(int.Parse(numbers[0]));
+								break;
+							case 2:
+								{
+									int begin = int.Parse(numbers[0]);
+									int end = int.Parse(numbers[1]);
+									for (int j = begin; j <= end; ++j) {
+										allProblems.Add(j);
+									}
+								}
+								break;
+							case 3:
+								{
+									int begin = int.Parse(numbers[0]);
+									int end = int.Parse(numbers[1]);
+									int step = int.Parse(numbers[2].Substring(0, numbers[2].Length - 1));
+									for (int j = begin; j <= end; j += step) {
+										allProblems.Add(j);
+									}
+								}
+								break;
+							default:
+								allProblems.Clear();
+								allProblems.Add(-(i+1));
+								return allProblems;
+						}
+					}
+					catch (FormatException) {
+						allProblems.Clear();
+						allProblems.Add(-(i+1));
+						return allProblems;
+					}
+				}
+			}
+			return allProblems;
 		}
 		
 		void saveStudents_Click(object sender, RoutedEventArgs e)
@@ -125,56 +182,25 @@ namespace StudentProblemPicker
 		//kludgy as hell, almost no input validation
 		void selectFromStudents_Click(object sender, RoutedEventArgs e)
 		{
-			List<int> allProblems = new List<int>();
-			for (int i = 0; i < this.Problems.Count; ++i) {
-				string entryString = this.Problems[i].Problems;
-				entryString = entryString.Replace(" ", "");
-				IList<string> subEntries = this.Problems[i].Problems.Split(',');
-				foreach (string subentry in subEntries) {
-					IList<string> numbers = subentry.Split('-', '(');
-					try {
-						switch (numbers.Count) {
-							case 1:
-								allProblems.Add(int.Parse(numbers[0]));
-								break;
-							case 2:
-								{
-									int begin = int.Parse(numbers[0]);
-									int end = int.Parse(numbers[1]);
-									for (int j = begin; j <= end; ++j) {
-										allProblems.Add(j);
-									}
-								}
-								break;
-							case 3:
-								{
-									int begin = int.Parse(numbers[0]);
-									int end = int.Parse(numbers[1]);
-									int step = int.Parse(numbers[2].Substring(0, numbers[2].Length - 1));
-									for (int j = begin; j <= end; j += step) {
-										allProblems.Add(j);
-									}
-								}
-								break;
-							default:
-								MessageBox.Show("Item " + (i+1).ToString() + " wasn't in the correct format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-								return;
-						}
+			List<int> allProblems = this.ParseProblemsList();
+			if (allProblems[0] >= 0) {
+				List<Student> shuffledStudents = new List<Student>(this.Students);
+				Shuffle(shuffledStudents);
+				Shuffle(allProblems);
+				
+				int numSelections = NumberOfSelectionsWindow.GetNumSelections(this, Math.Min(this.Students.Count, allProblems.Count));
+				
+				if (numSelections > 0) {
+					string assignments = "";
+					for (int i = 0; i < numSelections; ++i) {
+						assignments += String.Format("{0}: Problem {1}\n", shuffledStudents[i].Name, allProblems[i]);
 					}
-					catch (FormatException) {
-						MessageBox.Show("Item " + (i+1).ToString() + " wasn't in the correct format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
+					MessageBox.Show(assignments, "Problem Assignments");
 				}
 			}
-			List<Student> shuffledStudents = new List<Student>(this.Students);
-			Shuffle(shuffledStudents);
-			Shuffle(allProblems);
-			
-			string assignments = "";
-			for (int i = 0; i < 5; ++i) {
-				assignments += String.Format("{0}: Problem {1}\n", shuffledStudents[i].Name, allProblems[i]);
+			else {
+				MessageBox.Show("Item " + -allProblems[0] + " wasn't in the correct format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
-			MessageBox.Show(assignments, "Problem Assignments");
 		}
 		
 		void getHelp_Click(object sender, RoutedEventArgs e)

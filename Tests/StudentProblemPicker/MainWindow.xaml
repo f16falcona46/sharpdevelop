@@ -5,8 +5,8 @@
 	Title="Student Problem Picker"
 	Height="400"
 	Width="600"
-	MinHeight="200"
-	MinWidth="300"
+	MinHeight="300"
+	MinWidth="400"
 	Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
 	<Grid>
 		<Grid.ColumnDefinitions>
