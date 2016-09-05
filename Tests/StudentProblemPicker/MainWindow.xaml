@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window
+	x:Class="StudentProblemPicker.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	x:Name="mainWindow"
+	Title="Student Problem Picker"
+	Height="400"
+	Width="600"
+	MinHeight="200"
+	MinWidth="300"
+	Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				Width="1*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition
+				Height="*" />
+			<RowDefinition
+				Height="Auto" />
+			<RowDefinition
+				Height="Auto" />
+			<RowDefinition
+				Height="Auto" />
+		</Grid.RowDefinitions>
+		<GroupBox
+			Header="Select Items"
+			Grid.Row="0"
+			Grid.Column="0">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition
+						Width="*"
+						MinWidth="80" />
+					<ColumnDefinition
+						Width="Auto" />
+					<ColumnDefinition
+						Width="*"
+						MinWidth="80" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition
+						Height="Auto" />
+					<RowDefinition
+						Height="*" />
+					<RowDefinition
+						Height="Auto" />
+				</Grid.RowDefinitions>
+				<Label
+					Content="Students"
+					Grid.Column="0"
+					Grid.Row="0" />
+				<DataGrid
+					x:Name="studentsDataGrid"
+					Grid.Row="1"
+					Grid.Column="0"
+					ItemsSource="{Binding Path=Students}"
+					ColumnWidth="*" />
+				<Grid
+					Grid.Row="2"
+					Grid.Column="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="*" />
+						<ColumnDefinition
+							Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Button
+						x:Name="saveStudents"
+						Content="Save Student File"
+						Grid.Row="0"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Margin="5"
+						Click="saveStudents_Click" />
+					<Button
+						x:Name="loadStudents"
+						Content="Load Student File"
+						Grid.Row="0"
+						Grid.Column="1"
+						HorizontalAlignment="Right"
+						Margin="5"
+						Click="loadStudents_Click" />
+				</Grid>
+				<GridSplitter
+					HorizontalAlignment="Right"
+					VerticalAlignment="Stretch"
+					Grid.Column="1"
+					Grid.Row="0"
+					Grid.RowSpan="3"
+					ResizeBehavior="PreviousAndNext"
+					Width="5"
+					Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+				<Label
+					Content="Problems"
+					Grid.Column="2"
+					Grid.Row="0" />
+				<DataGrid
+					x:Name="problemsDataGrid"
+					Grid.Row="1"
+					Grid.Column="2"
+					ItemsSource="{Binding Path=Problems}"
+					ColumnWidth="*" />
+				<Grid
+					Grid.Row="2"
+					Grid.Column="2">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="*" />
+						<ColumnDefinition
+							Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Button
+						x:Name="saveProblems"
+						Content="Save Problem File"
+						Grid.Row="0"
+						Grid.Column="0"
+						HorizontalAlignment="Right"
+						Margin="5"
+						Click="saveProblems_Click" />
+					<Button
+						x:Name="loadProblems"
+						Content="Load Problem File"
+						Grid.Row="0"
+						Grid.Column="1"
+						HorizontalAlignment="Right"
+						Margin="5"
+						Click="loadProblems_Click" />
+				</Grid>
+			</Grid>
+		</GroupBox>
+		<Button
+			x:Name="selectFromStudents"
+			Content="Randomly Choose"
+			Grid.Row="2"
+			Grid.Column="0"
+			HorizontalAlignment="Stretch"
+			Margin="5"
+			Click="selectFromStudents_Click" />
+		<Button
+			x:Name="getHelp"
+			Content="  ?  "
+			Grid.Row="3"
+			Grid.Column="1"
+			HorizontalAlignment="Right"
+			Margin="5"
+			Click="getHelp_Click" />
+	</Grid>
+</Window>
