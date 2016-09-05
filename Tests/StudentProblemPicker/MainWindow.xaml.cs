@@ -38,6 +38,19 @@ namespace StudentProblemPicker
 		
 		public IList<Student> Students {get; set;}
 		public IList<ProblemEntry> Problems {get; set;}
+		private static Random rng = new Random();
+
+		private static void Shuffle<T>(IList<T> list)  
+		{
+			int n = list.Count;
+			while (n > 1) {
+				n--;
+				int k = rng.Next(n + 1);
+				T value = list[k];
+				list[k] = list[n];
+				list[n] = value;
+			}
+		}
 		
 		void saveStudents_Click(object sender, RoutedEventArgs e)
 		{
@@ -109,14 +122,69 @@ namespace StudentProblemPicker
 			}
 		}
 		
+		//kludgy as hell, almost no input validation
 		void selectFromStudents_Click(object sender, RoutedEventArgs e)
 		{
-			throw new NotImplementedException();
+			List<int> allProblems = new List<int>();
+			for (int i = 0; i < this.Problems.Count; ++i) {
+				string entryString = this.Problems[i].Problems;
+				entryString = entryString.Replace(" ", "");
+				IList<string> subEntries = this.Problems[i].Problems.Split(',');
+				foreach (string subentry in subEntries) {
+					IList<string> numbers = subentry.Split('-', '(');
+					try {
+						switch (numbers.Count) {
+							case 1:
+								allProblems.Add(int.Parse(numbers[0]));
+								break;
+							case 2:
+								{
+									int begin = int.Parse(numbers[0]);
+									int end = int.Parse(numbers[1]);
+									for (int j = begin; j <= end; ++j) {
+										allProblems.Add(j);
+									}
+								}
+								break;
+							case 3:
+								{
+									int begin = int.Parse(numbers[0]);
+									int end = int.Parse(numbers[1]);
+									int step = int.Parse(numbers[2].Substring(0, numbers[2].Length - 1));
+									for (int j = begin; j <= end; j += step) {
+										allProblems.Add(j);
+									}
+								}
+								break;
+							default:
+								MessageBox.Show("Item " + (i+1).ToString() + " wasn't in the correct format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+								return;
+						}
+					}
+					catch (FormatException) {
+						MessageBox.Show("Item " + (i+1).ToString() + " wasn't in the correct format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+					}
+				}
+			}
+			List<Student> shuffledStudents = new List<Student>(this.Students);
+			Shuffle(shuffledStudents);
+			Shuffle(allProblems);
+			
+			string assignments = "";
+			for (int i = 0; i < 5; ++i) {
+				assignments += String.Format("{0}: Problem {1}\n", shuffledStudents[i].Name, allProblems[i]);
+			}
+			MessageBox.Show(assignments, "Problem Assignments");
 		}
 		
 		void getHelp_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBox.Show("For a single problem, enter a number (e.g., 3), for a range, enter it using dashes (e.g., 3-9), and for skipped problems, enter the interval in parentheses (e.g., 3-9(3) for 3-9, multiples of 3).", "Help");
+			MessageBox.Show("For a single problem, enter a number (e.g., 3), "+
+			                	"for a range, enter it using dashes (e.g., 3-9), "+
+			                	"and for skipped problems, enter the interval in parentheses (e.g., 3-9(3) for 3-9, multiples of 3); "+
+			                	"each entry can also be separated by a comma instead of being a new entry (e.g., 4,5-10 is equivalent to two entries). "+
+			                	"Spaces are ignored.",
+			                "Help");
 		}
 	}
 	
