@@ -7,6 +7,16 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
+/*
+
+	Stack Format: From top: PTR, PTR, PTR...
+	Stack Data Format: From bottom: TYPE data, TYPE data, ...
+	Return Stack Format:
+		For RPT: 0, PGM_PTR, PGM_PTR
+		Others: PGM_PTR, PGM_PTR, ...
+
+*/
+
 namespace SBIL
 {
 	public static class SBIL_Funcs
@@ -55,6 +65,11 @@ namespace SBIL
 		
 		public static byte[] SBIL_Compile(byte[] input)
 		{
+			List<byte> pmem = new List<byte>();
+			string token = "";
+			for (int i = 0; i < input.Length; ++i) {
+				
+			}
 			throw new System.NotImplementedException();
 		}
 		
