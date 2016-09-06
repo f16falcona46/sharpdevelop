@@ -183,23 +183,28 @@ namespace StudentProblemPicker
 		void selectFromStudents_Click(object sender, RoutedEventArgs e)
 		{
 			List<int> allProblems = this.ParseProblemsList();
-			if (allProblems[0] >= 0) {
-				List<Student> shuffledStudents = new List<Student>(this.Students);
-				Shuffle(shuffledStudents);
-				Shuffle(allProblems);
-				
-				int numSelections = NumberOfSelectionsWindow.GetNumSelections(this, Math.Min(this.Students.Count, allProblems.Count));
-				
-				if (numSelections > 0) {
-					string assignments = "";
-					for (int i = 0; i < numSelections; ++i) {
-						assignments += String.Format("{0}: Problem {1}\n", shuffledStudents[i].Name, allProblems[i]);
+			if (allProblems.Count > 0) {
+				if (allProblems[0] >= 0) {
+					List<Student> shuffledStudents = new List<Student>(this.Students);
+					Shuffle(shuffledStudents);
+					Shuffle(allProblems);
+					
+					int numSelections = NumberOfSelectionsWindow.GetNumSelections(this, Math.Min(this.Students.Count, allProblems.Count));
+					
+					if (numSelections > 0) {
+						string assignments = "";
+						for (int i = 0; i < numSelections; ++i) {
+							assignments += String.Format("{0}: Problem {1}\n", shuffledStudents[i].Name, allProblems[i]);
+						}
+						MessageBox.Show(assignments, "Problem Assignments");
 					}
-					MessageBox.Show(assignments, "Problem Assignments");
+				}
+				else {
+					MessageBox.Show("Item " + -allProblems[0] + " wasn't in the correct format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 			else {
-				MessageBox.Show("Item " + -allProblems[0] + " wasn't in the correct format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("Not enough items.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 		
